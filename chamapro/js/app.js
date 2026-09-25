@@ -1,5 +1,5 @@
 /**
- * ChamaPro - Application Logic & State Controller
+ * ChamaPro - Application Logic, Auth Integration & GPS Map Controller
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,11 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
     selectedCategory: 'all',
     searchQuery: '',
     currentFilter: 'all',
-    currentSort: 'rating',
+    currentSort: 'distance', // Default order by real GPS proximity
     activeModal: null,
     selectedPro: null,
     activeUrgency: 'Hoje',
-    uploadedImage: null,
     ratingStars: 5,
     activeChatProId: 'pro-1',
     theme: localStorage.getItem('chamapro_theme') || 'light'
@@ -46,12 +45,73 @@ document.addEventListener('DOMContentLoaded', () => {
     toastContainer: document.getElementById('toastContainer'),
     fileInput: document.getElementById('photoInput'),
     dropzone: document.getElementById('photoDropzone'),
-    photoPreview: document.getElementById('photoPreview')
+    photoPreview: document.getElementById('photoPreview'),
+
+    // Auth & Geo Elements
+    userNavArea: document.getElementById('userNavArea'),
+    authModal: document.getElementById('authModal'),
+    btnOpenAuth: document.getElementById('btnOpenAuth'),
+    btnActivateGPS: document.getElementById('btnActivateGPS'),
+    btnToggleMap: document.getElementById('btnToggleMap'),
+    gpsStatusText: document.getElementById('gpsStatusText'),
+    mapWrapper: document.getElementById('mapWrapper'),
+    tabAuthLogin: document.getElementById('tabAuthLogin'),
+    tabAuthRegisterPro: document.getElementById('tabAuthRegisterPro'),
+    formLoginClient: document.getElementById('formLoginClient'),
+    formRegisterPro: document.getElementById('formRegisterPro')
+  };
+
+  // Global helper for map pin popup actions
+  window.ChamaProAppOpenQuote = (proId) => {
+    openQuoteModal(proId);
   };
 
   // Initialize Theme
   document.documentElement.setAttribute('data-theme', state.theme);
   updateThemeIcon();
+
+  // Initialize Auth UI
+  renderUserNav();
+  window.ChamaProAuth.onAuthChange(() => {
+    renderUserNav();
+    renderPros();
+  });
+
+  // Initialize Map Engine
+  setTimeout(() => {
+    window.ChamaProGeo.initMap('leafletMap');
+  }, 300);
+
+  // Render User Navbar Persona
+  function renderUserNav() {
+    if (!el.userNavArea) return;
+    const user = window.ChamaProAuth.getUser();
+
+    if (user) {
+      const isPro = user.role === 'pro';
+      el.userNavArea.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 0.6rem; background: var(--bg-subtle); padding: 0.35rem 0.85rem; border-radius: var(--radius-full); border: 1px solid var(--border-color);">
+          <img src="${user.avatar}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+          <div style="display: flex; flex-direction: column;">
+            <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary);">${user.name}</span>
+            <span style="font-size: 0.72rem; font-weight: 600; color: ${isPro ? 'var(--brand-accent)' : 'var(--brand-primary)'};">${isPro ? '⭐ Profissional' : '👤 Cliente'}</span>
+          </div>
+          <button id="btnLogoutUser" style="color: var(--text-muted); font-size: 0.9rem; margin-left: 0.4rem;" title="Sair"><i class="fa-solid fa-right-from-bracket"></i></button>
+        </div>
+      `;
+      document.getElementById('btnLogoutUser')?.addEventListener('click', () => {
+        window.ChamaProAuth.logout();
+        showToast('Sessão encerrada.');
+      });
+    } else {
+      el.userNavArea.innerHTML = `
+        <button class="btn-primary" id="btnOpenAuth">
+          <i class="fa-solid fa-user-check"></i> Entrar / Cadastrar
+        </button>
+      `;
+      document.getElementById('btnOpenAuth')?.addEventListener('click', () => openModal(el.authModal));
+    }
+  }
 
   // 1. Render Categories
   function renderCategories() {
@@ -77,13 +137,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.category-card').forEach(card => {
       card.addEventListener('click', () => {
         const catId = card.getAttribute('data-cat-id');
-        if (state.selectedCategory === catId) {
-          state.selectedCategory = 'all';
-        } else {
-          state.selectedCategory = catId;
-        }
+        state.selectedCategory = state.selectedCategory === catId ? 'all' : catId;
         renderCategories();
         renderPros();
+        window.ChamaProGeo.renderMarkers(getFilteredPros());
         scrollToPros();
       });
     });
@@ -115,8 +172,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       return true;
     }).sort((a, b) => {
-      if (state.currentSort === 'rating') return b.rating - a.rating;
       if (state.currentSort === 'distance') return a.distance - b.distance;
+      if (state.currentSort === 'rating') return b.rating - a.rating;
       if (state.currentSort === 'price_asc') return a.startingPrice - b.startingPrice;
       if (state.currentSort === 'price_desc') return b.startingPrice - a.startingPrice;
       return 0;
@@ -127,6 +184,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderPros() {
     if (!el.prosGrid) return;
     const pros = getFilteredPros();
+
+    // Re-render map markers alongside grid
+    window.ChamaProGeo.renderMarkers(pros);
 
     if (pros.length === 0) {
       el.prosGrid.innerHTML = `
@@ -156,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <p class="pro-title">${pro.title}</p>
             <div class="pro-metrics">
               <span class="rating-badge"><i class="fa-solid fa-star"></i> ${pro.rating} (${pro.reviewsCount})</span>
-              <span class="distance-badge"><i class="fa-solid fa-location-dot"></i> ${pro.distance} km</span>
+              <span class="distance-badge" style="font-weight: 700; color: var(--brand-primary);"><i class="fa-solid fa-location-dot"></i> ${pro.distance} km</span>
               ${pro.availableToday ? '<span style="color: var(--brand-success); font-weight: 600; font-size: 0.78rem;"><i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Hoje</span>' : ''}
             </div>
           </div>
@@ -182,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `).join('');
 
-    // Event Listeners for buttons inside pro cards
+    // Event Listeners for pro cards
     document.querySelectorAll('.btn-view-profile').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -194,12 +254,6 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         openQuoteModal(btn.getAttribute('data-pro-id'));
-      });
-    });
-
-    document.querySelectorAll('.pro-card').forEach(card => {
-      card.addEventListener('click', () => {
-        openProModal(card.getAttribute('data-pro-id'));
       });
     });
   }
@@ -221,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div>
             <h2 style="font-size: 1.5rem; font-weight: 800;">${pro.name} ${pro.verified ? '<i class="fa-solid fa-circle-check" style="color: var(--brand-primary); font-size: 1.1rem;" title="Documentos e Antecedentes Verificados"></i>' : ''}</h2>
             <p style="color: var(--text-secondary); font-weight: 600;">${pro.title}</p>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;"><i class="fa-solid fa-map-pin"></i> ${pro.address}</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;"><i class="fa-solid fa-map-pin"></i> ${pro.address} (${pro.distance} km de você)</p>
             <div style="display: flex; gap: 1rem; margin-top: 0.5rem; font-size: 0.9rem;">
               <span style="color: var(--brand-accent); font-weight: 700;"><i class="fa-solid fa-star"></i> ${pro.rating} (${pro.reviewsCount} avaliações)</span>
               <span style="font-weight: 600;"><i class="fa-solid fa-briefcase"></i> ${pro.completedJobs} trabalhos</span>
@@ -291,7 +345,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     openModal(el.proModal);
 
-    // Event listeners in profile modal
     document.querySelector('.modal-close').addEventListener('click', () => closeModal(el.proModal));
     document.getElementById('btnStartChatPro').addEventListener('click', () => {
       closeModal(el.proModal);
@@ -454,7 +507,100 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Event Listeners Initialization
+  // GPS Button Event
+  if (el.btnActivateGPS) {
+    el.btnActivateGPS.addEventListener('click', () => {
+      el.btnActivateGPS.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Localizando GPS...';
+      window.ChamaProGeo.getUserGPSLocation(
+        (coords) => {
+          el.btnActivateGPS.innerHTML = '<i class="fa-solid fa-location-circle-check"></i> GPS Ativo!';
+          if (el.gpsStatusText) el.gpsStatusText.textContent = '📍 Distâncias recalculadas com precisão GPS para sua posição!';
+          showToast('Sua localização GPS foi obtida! Profissionais reordenados por proximidade.');
+          renderPros();
+          window.ChamaProGeo.initMap('leafletMap');
+        },
+        (err) => {
+          el.btnActivateGPS.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i> Tentar Novamente';
+          showToast(err, 'error');
+        }
+      );
+    });
+  }
+
+  // Toggle Map Visibility
+  if (el.btnToggleMap) {
+    el.btnToggleMap.addEventListener('click', () => {
+      const isHidden = el.mapWrapper.style.display === 'none';
+      el.mapWrapper.style.display = isHidden ? 'block' : 'none';
+      if (isHidden) {
+        window.ChamaProGeo.initMap('leafletMap');
+      }
+    });
+  }
+
+  // Auth Tabs (Login vs Register Pro)
+  if (el.tabAuthLogin && el.tabAuthRegisterPro) {
+    el.tabAuthLogin.addEventListener('click', () => {
+      el.tabAuthLogin.classList.add('active');
+      el.tabAuthRegisterPro.classList.remove('active');
+      el.formLoginClient.style.display = 'block';
+      el.formRegisterPro.style.display = 'none';
+    });
+
+    el.tabAuthRegisterPro.addEventListener('click', () => {
+      el.tabAuthRegisterPro.classList.add('active');
+      el.tabAuthLogin.classList.remove('active');
+      el.formRegisterPro.style.display = 'block';
+      el.formLoginClient.style.display = 'none';
+    });
+  }
+
+  // Login Client Form Submit
+  if (el.formLoginClient) {
+    el.formLoginClient.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      window.ChamaProAuth.login(email, '123456', 'client');
+      closeModal(el.authModal);
+      showToast(`Bem-vindo de volta, ${email.split('@')[0]}!`);
+    });
+  }
+
+  // Register Pro Form Submit
+  if (el.formRegisterPro) {
+    el.formRegisterPro.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('regProName').value;
+      const title = document.getElementById('regProTitle').value;
+      const category = document.getElementById('regProCategory').value;
+      const price = document.getElementById('regProPrice').value;
+      const bio = document.getElementById('regProBio').value;
+
+      window.ChamaProAuth.registerProfessional({
+        name,
+        title,
+        category,
+        startingPrice: price,
+        bio,
+        email: `${name.toLowerCase().replace(/\s+/g, '')}@chamapro.com`
+      });
+
+      closeModal(el.authModal);
+      showToast(`Parabéns ${name}! Seu perfil profissional foi criado com sucesso!`);
+      renderCategories();
+      renderPros();
+      scrollToPros();
+    });
+  }
+
+  // Footer Register Pro Trigger
+  document.getElementById('btnRegisterProFooter')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    openModal(el.authModal);
+    el.tabAuthRegisterPro.click();
+  });
+
+  // Event Listeners Search & Filters
   if (el.searchInput) {
     el.searchInput.addEventListener('input', (e) => {
       state.searchQuery = e.target.value;
@@ -515,7 +661,6 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast('Solicitação enviada com sucesso! O profissional responderá em instantes.');
       renderMyRequests();
       
-      // Auto open chat preview after 1.5 seconds simulation
       setTimeout(() => {
         openChatWith(newReq.proId);
         showToast(`Nova mensagem recebida de ${newReq.proName}!`, 'info');
@@ -535,7 +680,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Simulated Photo Dropzone
   if (el.dropzone) {
     el.dropzone.addEventListener('click', () => {
-      // Simulate choosing a sample image
       el.photoPreview.src = 'https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=500&q=80';
       el.photoPreview.style.display = 'block';
       showToast('Foto do problema anexada!', 'success');
@@ -567,7 +711,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (state.selectedPro) {
         state.selectedPro.reviews.unshift({
           id: `rev-${Date.now()}`,
-          author: 'Você (Cliente ChamaPro)',
+          author: window.ChamaProAuth.getUser()?.name || 'Cliente ChamaPro',
           avatar: 'https://i.pravatar.cc/100?img=33',
           rating: state.ratingStars,
           date: 'Agora',
@@ -595,7 +739,6 @@ document.addEventListener('DOMContentLoaded', () => {
     el.chatInput.value = '';
     renderChatMessages(state.activeChatProId);
 
-    // Simulated Pro Instant Reply
     setTimeout(() => {
       chat.messages.push({
         sender: 'pro',

@@ -1,9 +1,16 @@
 /**
- * ChamaPro - Data Repository
- * Categorias, Profissionais, Avaliações e Dados de Demonstração
+ * ChamaPro - Data Repository & Database Layer
+ * Categorias, Profissionais, Coordenadas Geográficas (GPS) e Persistência
  */
 
 const ChamaProData = {
+  // Centro Padrão (Ex: São Paulo / Praça da Sé: -23.5505, -46.6333)
+  userLocation: {
+    lat: -23.5505,
+    lng: -46.6333,
+    address: 'Centro, São Paulo - SP (GPS Desativado)'
+  },
+
   categories: [
     {
       id: 'eletricista',
@@ -104,6 +111,8 @@ const ChamaProData = {
       rating: 4.9,
       reviewsCount: 128,
       distance: 1.8,
+      lat: -23.5475,
+      lng: -46.6360,
       startingPrice: 80,
       avatar: 'assets/pro_electrician.jpg',
       verified: true,
@@ -112,7 +121,7 @@ const ChamaProData = {
       bio: 'Eletricista certificado pelo SENAI com mais de 8 anos de experiência em instalações residenciais, comerciais e manutenção preventiva. Garantia de 90 dias em todos os serviços.',
       experienceYears: 8,
       completedJobs: 342,
-      address: 'Centro • Atende até 15 km',
+      address: 'Bela Vista, SP • Atende até 15 km',
       specialties: ['Quadros Trifásicos', 'Instalação de Tomadas e Interruptores', 'Iluminação LED em Sanca', 'Chuveiros e Torneiras Elétricas'],
       portfolio: [
         { title: 'Instalação de Quadro Elétrico Moderno', img: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&q=80' },
@@ -147,6 +156,8 @@ const ChamaProData = {
       rating: 4.95,
       reviewsCount: 215,
       distance: 2.3,
+      lat: -23.5615,
+      lng: -46.6560,
       startingPrice: 130,
       avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&q=80',
       verified: true,
@@ -155,7 +166,7 @@ const ChamaProData = {
       bio: 'Serviço detalhista e de confiança para manter sua casa impecável. Especialista em faxina detalhada, pós-obra, organização de closets e cuidados com superfícies delicadas.',
       experienceYears: 6,
       completedJobs: 512,
-      address: 'Jardins • Atende até 12 km',
+      address: 'Jardins, SP • Atende até 12 km',
       specialties: ['Faxina Profunda', 'Passadeira Express', 'Limpeza Pós-Reforma', 'Organização Marie Kondo'],
       portfolio: [
         { title: 'Organização de Cozinha Gourmet', img: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=500&q=80' },
@@ -181,6 +192,8 @@ const ChamaProData = {
       rating: 4.85,
       reviewsCount: 94,
       distance: 3.1,
+      lat: -23.5880,
+      lng: -46.6380,
       startingPrice: 90,
       avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&q=80',
       verified: true,
@@ -189,7 +202,7 @@ const ChamaProData = {
       bio: 'Encanador hidráulico com detector ultrassônico de vazamento (sem quebrar parede desnecessariamente). Atendimento rápido e solução definitiva para problemas com água e esgoto.',
       experienceYears: 10,
       completedJobs: 280,
-      address: 'Vila Mariana • Atende até 20 km',
+      address: 'Vila Mariana, SP • Atende até 20 km',
       specialties: ['Caça Vazamentos Geofone', 'Desentupimento sem Quebradeira', 'Instalação de Válvulas e Descargas', 'Manutenção de Bombas d\'Água'],
       portfolio: [
         { title: 'Reparo de Tubulação Embutida', img: 'https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=500&q=80' }
@@ -214,6 +227,8 @@ const ChamaProData = {
       rating: 4.92,
       reviewsCount: 167,
       distance: 1.2,
+      lat: -23.5640,
+      lng: -46.6870,
       startingPrice: 75,
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&q=80',
       verified: true,
@@ -222,7 +237,7 @@ const ChamaProData = {
       bio: 'Formatacão, otimização de computadores lentos, montagem de setups Gamer e Home Office, configuração de redes Wi-Fi Mesh e servidores de arquivos.',
       experienceYears: 5,
       completedJobs: 410,
-      address: 'Pinheiros • Atende até 10 km',
+      address: 'Pinheiros, SP • Atende até 10 km',
       specialties: ['Montagem de PC Gamer', 'Upgrade de SSD M.2', 'Otimização do Windows/Mac', 'Redes Mesh e Cabeamento Cat6'],
       portfolio: [
         { title: 'Setup High End com Custom Loop', img: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=500&q=80' }
@@ -247,6 +262,8 @@ const ChamaProData = {
       rating: 4.88,
       reviewsCount: 78,
       distance: 4.0,
+      lat: -23.6020,
+      lng: -46.6620,
       startingPrice: 150,
       avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&q=80',
       verified: true,
@@ -255,7 +272,7 @@ const ChamaProData = {
       bio: 'Transformo ambientes com acabamento de alto padrão. Especialista em cimento queimado, efeitos decorativos, pintura geométrica e renovação de móveis.',
       experienceYears: 7,
       completedJobs: 190,
-      address: 'Moema • Atende até 18 km',
+      address: 'Moema, SP • Atende até 18 km',
       specialties: ['Efeito Cimento Queimado', 'Pintura Geometrica e Boiserie', 'Proteção Anti-Mofo', 'Verniz e Lixamento de Portas'],
       portfolio: [
         { title: 'Parede Efeito Cimento Queimado', img: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=500&q=80' }
@@ -280,6 +297,8 @@ const ChamaProData = {
       rating: 4.79,
       reviewsCount: 110,
       distance: 3.5,
+      lat: -23.5900,
+      lng: -46.6010,
       startingPrice: 130,
       avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=80',
       verified: true,
@@ -288,7 +307,7 @@ const ChamaProData = {
       bio: 'Com mais de 15 anos no ramo da construção civil, realizo reformas de banheiros, assentamento de porcelanato grandes formatos e pequenos reparos residenciais com contrato e pontualidade.',
       experienceYears: 15,
       completedJobs: 480,
-      address: 'Ipiranga • Atende até 25 km',
+      address: 'Ipiranga, SP • Atende até 25 km',
       specialties: ['Porcelanato Grande Formato', 'Reformas Rápidas de Banheiro', 'Regularização de Contra-Piso', 'Abertura de Vãos e Portas'],
       portfolio: [
         { title: 'Banheiro Reformado com Nicho Embutido', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500&q=80' }
@@ -313,6 +332,8 @@ const ChamaProData = {
       rating: 4.97,
       reviewsCount: 310,
       distance: 0.9,
+      lat: -23.5550,
+      lng: -46.6450,
       startingPrice: 70,
       avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&q=80',
       verified: true,
@@ -321,7 +342,7 @@ const ChamaProData = {
       bio: 'Troca de tela express em até 40 minutos com garantia de 6 meses. Reparo avançado em placa-mãe (Microsoldagem), troca de bateria original e desoxidação.',
       experienceYears: 7,
       completedJobs: 890,
-      address: 'Bela Vista • Atende a domicílio',
+      address: 'Consolação, SP • Atende a domicílio',
       specialties: ['Troca de Tela iPhone/Samsung', 'Substituição de Bateria Expresso', 'Microsoldagem em Placa', 'Recuperação de Dados'],
       portfolio: [
         { title: 'Troca de Vidro Mantendo Display Original', img: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=500&q=80' }
@@ -346,6 +367,8 @@ const ChamaProData = {
       rating: 4.91,
       reviewsCount: 145,
       distance: 2.7,
+      lat: -23.5010,
+      lng: -46.6240,
       startingPrice: 95,
       avatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&q=80',
       verified: true,
@@ -354,7 +377,7 @@ const ChamaProData = {
       bio: 'Especializada em curtos-circuitos, instalações de casa inteligente (Sonoff, Alexa, Tuya) e emergências 24 horas. Resposta rápida para chamados de urgência.',
       experienceYears: 6,
       completedJobs: 290,
-      address: 'Santana • Atende até 15 km',
+      address: 'Santana, SP • Atende até 15 km',
       specialties: ['Atendimento de Emergência 24h', 'Casas Inteligentes (Smart Home)', 'Substituição de Fiação Antiga', 'Disjuntores DR e Proteção Surge'],
       portfolio: [
         { title: 'Automação Iluminação Residencial', img: 'https://images.unsplash.com/photo-1558002038-1055907df827?w=500&q=80' }
