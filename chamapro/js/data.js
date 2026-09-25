@@ -1,0 +1,428 @@
+/**
+ * ChamaPro - Data Repository
+ * Categorias, Profissionais, Avaliações e Dados de Demonstração
+ */
+
+const ChamaProData = {
+  categories: [
+    {
+      id: 'eletricista',
+      name: 'Eletricista',
+      icon: 'fa-bolt',
+      color: '#f59e0b',
+      bgLight: '#fef3c7',
+      description: 'Instalações elétricas, chuveiros, tomadas, quadros de luz e reparos.',
+      proCount: 142,
+      startingPrice: 80,
+      popularServices: ['Instalação de Tomada', 'Troca de Chuveiro', 'Manutenção no Quadro de Luz', 'Luminárias e LED']
+    },
+    {
+      id: 'encanador',
+      name: 'Encanador',
+      icon: 'fa-faucet-drip',
+      color: '#06b6d4',
+      bgLight: '#cff4fc',
+      description: 'Desentupimentos, vazamentos, instalação de torneiras e tubulações.',
+      proCount: 98,
+      startingPrice: 90,
+      popularServices: ['Conserto de Vazamento', 'Desentupimento de Pia', 'Instalação de Torneira', 'Caixa d\'Água']
+    },
+    {
+      id: 'informatica',
+      name: 'Técnico de Informática',
+      icon: 'fa-laptop-code',
+      color: '#3b82f6',
+      bgLight: '#dbeafe',
+      description: 'Formatação, limpeza de PC, redes Wi-Fi, notebooks e montagem de computadores.',
+      proCount: 85,
+      startingPrice: 75,
+      popularServices: ['Formatação com Backup', 'Limpeza e Troca de Pasta Térmica', 'Upgrade de SSD/RAM', 'Configuração de Wi-Fi']
+    },
+    {
+      id: 'mecanico',
+      name: 'Mecânico',
+      icon: 'fa-wrench',
+      color: '#ef4444',
+      bgLight: '#fee2e2',
+      description: 'Socorro mecânico, troca de óleo, revisão, bateria e diagnóstico veicular.',
+      proCount: 64,
+      startingPrice: 100,
+      popularServices: ['Troca de Bateria no Local', 'Revisão Pré-Viagem', 'Socorro Mecânico 24h', 'Troca de Óleo e Filtros']
+    },
+    {
+      id: 'diarista',
+      name: 'Diarista',
+      icon: 'fa-broom',
+      color: '#10b981',
+      bgLight: '#d1fae5',
+      description: 'Limpeza residencial, passar roupa, organização de ambientes e pré-mudança.',
+      proCount: 210,
+      startingPrice: 120,
+      popularServices: ['Faxina Residencial Completa', 'Passadeira de Roupas', 'Limpeza Pós-Obra', 'Organização de Armários']
+    },
+    {
+      id: 'pintor',
+      name: 'Pintor',
+      icon: 'fa-paint-roller',
+      color: '#8b5cf6',
+      bgLight: '#ede9fe',
+      description: 'Pintura de paredes, teto, aplicação de textura, verniz e restauração.',
+      proCount: 76,
+      startingPrice: 150,
+      popularServices: ['Pintura de Quarto/Sala', 'Aplicação de Cimento Queimado', 'Pintura de Portões', 'Tratamento de Mofo']
+    },
+    {
+      id: 'pedreiro',
+      name: 'Pedreiro',
+      icon: 'fa-trowel-bricks',
+      color: '#d97706',
+      bgLight: '#fef3c7',
+      description: 'Pequenas reformas, assentamento de pisos, azulejos e alvenaria geral.',
+      proCount: 115,
+      startingPrice: 130,
+      popularServices: ['Assentamento de Piso/Porcelanato', 'Pequenos Reparos estruturais', 'Reforma de Banheiro', 'Instalação de Porta/Janela']
+    },
+    {
+      id: 'celular',
+      name: 'Técnico de Celular',
+      icon: 'fa-mobile-screen-button',
+      color: '#ec4899',
+      bgLight: '#fce7f3',
+      description: 'Troca de tela, substituição de bateria, conector de carga e desoxidação.',
+      proCount: 92,
+      startingPrice: 70,
+      popularServices: ['Troca de Tela Trincada', 'Troca de Bateria', 'Conserto de Conector de Carga', 'Recuperação de Celular Molhado']
+    }
+  ],
+
+  professionals: [
+    {
+      id: 'pro-1',
+      name: 'João Silva',
+      title: 'Eletricista Residencial & Predial',
+      category: 'eletricista',
+      rating: 4.9,
+      reviewsCount: 128,
+      distance: 1.8,
+      startingPrice: 80,
+      avatar: 'assets/pro_electrician.jpg',
+      verified: true,
+      superPro: true,
+      availableToday: true,
+      bio: 'Eletricista certificado pelo SENAI com mais de 8 anos de experiência em instalações residenciais, comerciais e manutenção preventiva. Garantia de 90 dias em todos os serviços.',
+      experienceYears: 8,
+      completedJobs: 342,
+      address: 'Centro • Atende até 15 km',
+      specialties: ['Quadros Trifásicos', 'Instalação de Tomadas e Interruptores', 'Iluminação LED em Sanca', 'Chuveiros e Torneiras Elétricas'],
+      portfolio: [
+        { title: 'Instalação de Quadro Elétrico Moderno', img: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&q=80' },
+        { title: 'Projeto de Iluminação em Fita LED', img: 'https://images.unsplash.com/photo-1565814636199-ae8133055c1c?w=500&q=80' }
+      ],
+      reviews: [
+        {
+          id: 'rev-1',
+          author: 'Mariana Oliveira',
+          avatar: 'https://i.pravatar.cc/100?img=47',
+          rating: 5,
+          date: 'Há 2 dias',
+          comment: 'O João foi super pontual e resolveu a troca da tomada do ar condicionado super rápido. Deixou tudo limpinho e testado. Recomendo muito!',
+          tags: ['Pontual', 'Trabalho Limpo', 'Profissional']
+        },
+        {
+          id: 'rev-2',
+          author: 'Carlos Alberto',
+          avatar: 'https://i.pravatar.cc/100?img=12',
+          rating: 4.9,
+          date: 'Há 1 semana',
+          comment: 'Instalou 6 luminárias no meu apartamento e reordenou a fiação do quadro de disjuntores. Preço justo e muito atencioso.',
+          tags: ['Preço Justo', 'Experiente']
+        }
+      ]
+    },
+    {
+      id: 'pro-2',
+      name: 'Maria Santos',
+      title: 'Especialista em Higienização Residencial',
+      category: 'diarista',
+      rating: 4.95,
+      reviewsCount: 215,
+      distance: 2.3,
+      startingPrice: 130,
+      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&q=80',
+      verified: true,
+      superPro: true,
+      availableToday: true,
+      bio: 'Serviço detalhista e de confiança para manter sua casa impecável. Especialista em faxina detalhada, pós-obra, organização de closets e cuidados com superfícies delicadas.',
+      experienceYears: 6,
+      completedJobs: 512,
+      address: 'Jardins • Atende até 12 km',
+      specialties: ['Faxina Profunda', 'Passadeira Express', 'Limpeza Pós-Reforma', 'Organização Marie Kondo'],
+      portfolio: [
+        { title: 'Organização de Cozinha Gourmet', img: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=500&q=80' },
+        { title: 'Higienização de Sala de Estar', img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500&q=80' }
+      ],
+      reviews: [
+        {
+          id: 'rev-3',
+          author: 'Fernanda Lima',
+          avatar: 'https://i.pravatar.cc/100?img=32',
+          rating: 5,
+          date: 'Ontem',
+          comment: 'Excelente profissional! Deixou a casa brilhando e organizada. Muito caprichosa em cada detalhe.',
+          tags: ['Super Detalhista', 'Confiável']
+        }
+      ]
+    },
+    {
+      id: 'pro-3',
+      name: 'Carlos Eduardo',
+      title: 'Mestre Encanador & Caça Vazamentos',
+      category: 'encanador',
+      rating: 4.85,
+      reviewsCount: 94,
+      distance: 3.1,
+      startingPrice: 90,
+      avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&q=80',
+      verified: true,
+      superPro: false,
+      availableToday: false,
+      bio: 'Encanador hidráulico com detector ultrassônico de vazamento (sem quebrar parede desnecessariamente). Atendimento rápido e solução definitiva para problemas com água e esgoto.',
+      experienceYears: 10,
+      completedJobs: 280,
+      address: 'Vila Mariana • Atende até 20 km',
+      specialties: ['Caça Vazamentos Geofone', 'Desentupimento sem Quebradeira', 'Instalação de Válvulas e Descargas', 'Manutenção de Bombas d\'Água'],
+      portfolio: [
+        { title: 'Reparo de Tubulação Embutida', img: 'https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=500&q=80' }
+      ],
+      reviews: [
+        {
+          id: 'rev-4',
+          author: 'Ricardo Mendes',
+          avatar: 'https://i.pravatar.cc/100?img=60',
+          rating: 5,
+          date: 'Há 3 dias',
+          comment: 'Achou o vazamento que 2 outros encanadores não acharam! Salvou minha conta de água.',
+          tags: ['Diagnóstico Preciso', 'Rápido']
+        }
+      ]
+    },
+    {
+      id: 'pro-4',
+      name: 'Lucas Mendes',
+      title: 'Técnico em Redes & Manutenção de PCs',
+      category: 'informatica',
+      rating: 4.92,
+      reviewsCount: 167,
+      distance: 1.2,
+      startingPrice: 75,
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&q=80',
+      verified: true,
+      superPro: true,
+      availableToday: true,
+      bio: 'Formatacão, otimização de computadores lentos, montagem de setups Gamer e Home Office, configuração de redes Wi-Fi Mesh e servidores de arquivos.',
+      experienceYears: 5,
+      completedJobs: 410,
+      address: 'Pinheiros • Atende até 10 km',
+      specialties: ['Montagem de PC Gamer', 'Upgrade de SSD M.2', 'Otimização do Windows/Mac', 'Redes Mesh e Cabeamento Cat6'],
+      portfolio: [
+        { title: 'Setup High End com Custom Loop', img: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=500&q=80' }
+      ],
+      reviews: [
+        {
+          id: 'rev-5',
+          author: 'Bruno Rocha',
+          avatar: 'https://i.pravatar.cc/100?img=33',
+          rating: 5,
+          date: 'Há 4 dias',
+          comment: 'Meu notebook estava inutilizável de lento. O Lucas colocou SSD e formatou, agora liga em 5 segundos!',
+          tags: ['Ágil', 'Explicou Tudo']
+        }
+      ]
+    },
+    {
+      id: 'pro-5',
+      name: 'Ana Beatriz Souza',
+      title: 'Pintora de Interiores e Texturas Finas',
+      category: 'pintor',
+      rating: 4.88,
+      reviewsCount: 78,
+      distance: 4.0,
+      startingPrice: 150,
+      avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&q=80',
+      verified: true,
+      superPro: false,
+      availableToday: true,
+      bio: 'Transformo ambientes com acabamento de alto padrão. Especialista em cimento queimado, efeitos decorativos, pintura geométrica e renovação de móveis.',
+      experienceYears: 7,
+      completedJobs: 190,
+      address: 'Moema • Atende até 18 km',
+      specialties: ['Efeito Cimento Queimado', 'Pintura Geometrica e Boiserie', 'Proteção Anti-Mofo', 'Verniz e Lixamento de Portas'],
+      portfolio: [
+        { title: 'Parede Efeito Cimento Queimado', img: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=500&q=80' }
+      ],
+      reviews: [
+        {
+          id: 'rev-6',
+          author: 'Patricia Gomes',
+          avatar: 'https://i.pravatar.cc/100?img=25',
+          rating: 5,
+          date: 'Há 1 semana',
+          comment: 'Fez o cimento queimado da minha sala de jantar e ficou parecendo capa de revista!',
+          tags: ['Artista', 'Limpeza Nota 10']
+        }
+      ]
+    },
+    {
+      id: 'pro-6',
+      name: 'Roberto Alves',
+      title: 'Pedreiro & Mestre de Pequenas Reformas',
+      category: 'pedreiro',
+      rating: 4.79,
+      reviewsCount: 110,
+      distance: 3.5,
+      startingPrice: 130,
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=80',
+      verified: true,
+      superPro: false,
+      availableToday: true,
+      bio: 'Com mais de 15 anos no ramo da construção civil, realizo reformas de banheiros, assentamento de porcelanato grandes formatos e pequenos reparos residenciais com contrato e pontualidade.',
+      experienceYears: 15,
+      completedJobs: 480,
+      address: 'Ipiranga • Atende até 25 km',
+      specialties: ['Porcelanato Grande Formato', 'Reformas Rápidas de Banheiro', 'Regularização de Contra-Piso', 'Abertura de Vãos e Portas'],
+      portfolio: [
+        { title: 'Banheiro Reformado com Nicho Embutido', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500&q=80' }
+      ],
+      reviews: [
+        {
+          id: 'rev-7',
+          author: 'Marcelo Ribeiro',
+          avatar: 'https://i.pravatar.cc/100?img=59',
+          rating: 4.8,
+          date: 'Há 2 semanas',
+          comment: 'Seu Roberto cumpriu todos os prazos combinados. O assentamento do piso ficou impecável.',
+          tags: ['Cumpre Prazos', 'Honesto']
+        }
+      ]
+    },
+    {
+      id: 'pro-7',
+      name: 'Marcos Vinicius',
+      title: 'Técnico Especialista em iPhone e Android',
+      category: 'celular',
+      rating: 4.97,
+      reviewsCount: 310,
+      distance: 0.9,
+      startingPrice: 70,
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&q=80',
+      verified: true,
+      superPro: true,
+      availableToday: true,
+      bio: 'Troca de tela express em até 40 minutos com garantia de 6 meses. Reparo avançado em placa-mãe (Microsoldagem), troca de bateria original e desoxidação.',
+      experienceYears: 7,
+      completedJobs: 890,
+      address: 'Bela Vista • Atende a domicílio',
+      specialties: ['Troca de Tela iPhone/Samsung', 'Substituição de Bateria Expresso', 'Microsoldagem em Placa', 'Recuperação de Dados'],
+      portfolio: [
+        { title: 'Troca de Vidro Mantendo Display Original', img: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=500&q=80' }
+      ],
+      reviews: [
+        {
+          id: 'rev-8',
+          author: 'Camila Duarte',
+          avatar: 'https://i.pravatar.cc/100?img=20',
+          rating: 5,
+          date: 'Hoje',
+          comment: 'Veio até o meu escritório e trocou a tela do meu iPhone na minha frente em meia hora! Sensacional!',
+          tags: ['A Domicílio', 'Garantia', 'Rápido']
+        }
+      ]
+    },
+    {
+      id: 'pro-8',
+      name: 'Patricia Lima',
+      title: 'Eletricista de Emergência 24h & Automação',
+      category: 'eletricista',
+      rating: 4.91,
+      reviewsCount: 145,
+      distance: 2.7,
+      startingPrice: 95,
+      avatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&q=80',
+      verified: true,
+      superPro: true,
+      availableToday: true,
+      bio: 'Especializada em curtos-circuitos, instalações de casa inteligente (Sonoff, Alexa, Tuya) e emergências 24 horas. Resposta rápida para chamados de urgência.',
+      experienceYears: 6,
+      completedJobs: 290,
+      address: 'Santana • Atende até 15 km',
+      specialties: ['Atendimento de Emergência 24h', 'Casas Inteligentes (Smart Home)', 'Substituição de Fiação Antiga', 'Disjuntores DR e Proteção Surge'],
+      portfolio: [
+        { title: 'Automação Iluminação Residencial', img: 'https://images.unsplash.com/photo-1558002038-1055907df827?w=500&q=80' }
+      ],
+      reviews: [
+        {
+          id: 'rev-9',
+          author: 'Gustavo Santos',
+          avatar: 'https://i.pravatar.cc/100?img=15',
+          rating: 5,
+          date: 'Há 3 dias',
+          comment: 'Salvou minha noite quando a chave geral caiu às 22h. Chegou rápido e encontrou o curto na tomada da cozinha.',
+          tags: ['Atendimento 24h', 'Socorro Rápido']
+        }
+      ]
+    }
+  ],
+
+  // Orçamentos e histórico do cliente atual
+  myRequests: [
+    {
+      id: 'REQ-1042',
+      serviceTitle: 'Instalação de Tomada Dupla 220V no Quarto',
+      category: 'eletricista',
+      proId: 'pro-1',
+      proName: 'João Silva',
+      proAvatar: 'assets/pro_electrician.jpg',
+      date: '25 Set 2026',
+      urgency: 'Esta Semana',
+      status: 'Aguardando Aprovação',
+      statusColor: '#f59e0b',
+      estimatedPrice: 'R$ 80 - R$ 120',
+      details: 'Preciso puxar um ponto de energia para a tomada do ar condicionado split novo que vai ser instalado.',
+      photo: 'https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=500&q=80'
+    },
+    {
+      id: 'REQ-1011',
+      serviceTitle: 'Formatação e Troca de SSD Notebook Dell',
+      category: 'informatica',
+      proId: 'pro-4',
+      proName: 'Lucas Mendes',
+      proAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&q=80',
+      date: '18 Set 2026',
+      urgency: 'Concluído',
+      status: 'Concluído',
+      statusColor: '#10b981',
+      estimatedPrice: 'R$ 150,00',
+      details: 'Upgrade para SSD NVMe 512GB com instalação limpa do Windows 11.',
+      rated: true,
+      myRating: 5
+    }
+  ],
+
+  // Mensagens simuladas para a aba de chat
+  chatMessages: [
+    {
+      proId: 'pro-1',
+      proName: 'João Silva',
+      proAvatar: 'assets/pro_electrician.jpg',
+      messages: [
+        { sender: 'pro', text: 'Olá! Vi seu pedido para a instalação da tomada de 220V.', time: '10:14' },
+        { sender: 'pro', text: 'Consegues me confirmar se o quadro de disjuntores fica perto da parede do quarto?', time: '10:15' },
+        { sender: 'user', text: 'Oi João! Fica sim, está no corredor a uns 3 metros de distância.', time: '10:18' },
+        { sender: 'pro', text: 'Perfeito! Consigo realizar esse serviço hoje à tarde por R$ 90 já com os fios inclusos. Podemos fechar?', time: '10:20' }
+      ]
+    }
+  ]
+};
+
+// Expor para o escopo global
+window.ChamaProData = ChamaProData;

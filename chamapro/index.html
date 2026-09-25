@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChamaPro - Conectando Você aos Melhores Profissionais da Sua Região</title>
+  <meta name="description" content="Encontre eletricistas, encanadores, diaristas, técnicos de informática e mais profissionais qualificados perto de você. Solicite orçamentos rápidos e seguros.">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Header / Navigation Bar -->
+  <header class="header">
+    <div class="container">
+      <nav class="nav-wrapper">
+        <a href="#" class="logo">
+          <div class="logo-icon">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <div class="logo-text">Chama<span>Pro</span></div>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#categorias" class="nav-link active"><i class="fa-solid fa-grid-2"></i> Categorias</a></li>
+          <li><a href="#profissionais" class="nav-link"><i class="fa-solid fa-user-gear"></i> Profissionais</a></li>
+          <li><a href="#como-funciona" class="nav-link"><i class="fa-solid fa-circle-info"></i> Como Funciona</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button class="icon-btn" id="themeToggle" title="Alternar Tema">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+          <button class="icon-btn" id="btnOpenChat" title="Minhas Mensagens">
+            <i class="fa-regular fa-comment-dots"></i>
+            <span class="badge-dot"></span>
+          </button>
+          <button class="btn-outline" id="btnMyRequests">
+            <i class="fa-solid fa-clipboard-list"></i> Meus Pedidos
+          </button>
+          <button class="btn-primary" onclick="document.getElementById('profissionais').scrollIntoView({behavior:'smooth'});">
+            <i class="fa-solid fa-magnifying-glass"></i> Chamar Pro
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="hero-tag">
+            <i class="fa-solid fa-shield-halved"></i> 100% Verificado & Seguro
+          </div>
+          <h1 class="hero-title">
+            O serviço que você precisa, com quem <span>realmente entende</span>.
+          </h1>
+          <p class="hero-subtitle">
+            Encontre eletricistas, encanadores, diaristas, técnicos e pintores qualificados na sua região em poucos minutos.
+          </p>
+
+          <!-- Main Search Box -->
+          <div class="search-box-card">
+            <form class="search-form" onsubmit="return false;">
+              <div class="search-input-group">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="Qual serviço você precisa hoje? (ex: Instalar tomada, Faxina)">
+              </div>
+              <button class="btn-primary search-btn" id="searchBtn">
+                Buscar Profissionais
+              </button>
+            </form>
+          </div>
+
+          <!-- Popular Search Chips -->
+          <div class="popular-searches">
+            <span>Populares:</span>
+            <span class="popular-chip">Instalar Tomada</span>
+            <span class="popular-chip">Troca de Chuveiro</span>
+            <span class="popular-chip">Faxina Residencial</span>
+            <span class="popular-chip">Formatar Notebook</span>
+            <span class="popular-chip">Troca de Tela iPhone</span>
+          </div>
+
+          <!-- Hero Metrics -->
+          <div class="hero-stats">
+            <div class="stat-item">
+              <h4>+15.000</h4>
+              <p>Profissionais Ativos</p>
+            </div>
+            <div class="stat-item">
+              <h4>4.9 ⭐</h4>
+              <p>Média de Avaliação</p>
+            </div>
+            <div class="stat-item">
+              <h4>< 15 min</h4>
+              <p>Tempo de Resposta</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Visual Banner -->
+        <div class="hero-media">
+          <div class="hero-image-wrapper">
+            <img src="assets/hero_banner.jpg" alt="ChamaPro Servicos Profissionais">
+          </div>
+          <!-- Dynamic Floating Cards -->
+          <div class="hero-floating-card card-1">
+            <div class="float-icon">
+              <i class="fa-solid fa-check"></i>
+            </div>
+            <div class="float-text">
+              <h5>Orçamento Aprovado</h5>
+              <p>João Eletricista • Há 3 min</p>
+            </div>
+          </div>
+          <div class="hero-floating-card card-2">
+            <div class="float-icon" style="background: #fef3c7; color: #f59e0b;">
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <div class="float-text">
+              <h5>Avaliação 5.0 ⭐</h5>
+              <p>"Serviço impecável e rápido!"</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="section" id="categorias">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Categorias de Serviços</h2>
+          <p class="section-subtitle">Selecione uma categoria para encontrar especialistas disponíveis</p>
+        </div>
+      </div>
+
+      <!-- Categories Dynamic Grid -->
+      <div class="categories-grid" id="categoriesGrid">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Professionals Section -->
+  <section class="section" id="profissionais" style="background: var(--bg-subtle);">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Profissionais Recomendados</h2>
+          <p class="section-subtitle">Compare avaliações, distância e solicite um orçamento direto</p>
+        </div>
+      </div>
+
+      <!-- Filter and Sort Bar -->
+      <div class="filter-bar">
+        <div class="filter-pills">
+          <button class="filter-pill active" data-filter="all">Todos</button>
+          <button class="filter-pill" data-filter="superpro"><i class="fa-solid fa-medal"></i> Super Pros</button>
+          <button class="filter-pill" data-filter="today"><i class="fa-solid fa-bolt"></i> Disponível Hoje</button>
+          <button class="filter-pill" data-filter="verified"><i class="fa-solid fa-circle-check"></i> Verificados</button>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <label for="sortSelect" style="font-size: 0.88rem; font-weight: 600; color: var(--text-secondary);">Ordenar por:</label>
+          <select id="sortSelect" class="sort-select">
+            <option value="rating">Melhor Avaliação</option>
+            <option value="distance">Mais Próximos</option>
+            <option value="price_asc">Menor Preço Inicial</option>
+            <option value="price_desc">Maior Preço Inicial</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Professionals Dynamic Grid -->
+      <div class="pros-grid" id="prosGrid">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works Section -->
+  <section class="section" id="como-funciona">
+    <div class="container">
+      <div class="section-header" style="text-align: center; justify-content: center;">
+        <div>
+          <h2 class="section-title">Como Funciona o ChamaPro?</h2>
+          <p class="section-subtitle">Resolva suas necessidades em 4 passos simples</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem; margin-top: 2rem;">
+        <div style="background: var(--bg-card); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); text-align: center;">
+          <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(2, 132, 199, 0.1); color: var(--brand-primary); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; margin: 0 auto 1.25rem auto;">1</div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Escolha o Serviço</h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary);">Digite o que precisa ou navegue pelas 8 categorias de serviços.</p>
+        </div>
+
+        <div style="background: var(--bg-card); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); text-align: center;">
+          <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(16, 185, 129, 0.1); color: var(--brand-success); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; margin: 0 auto 1.25rem auto;">2</div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Descreva o Problema</h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary);">Informe detalhes, envie uma foto do local e escolha a urgência.</p>
+        </div>
+
+        <div style="background: var(--bg-card); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); text-align: center;">
+          <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(245, 158, 11, 0.1); color: var(--brand-accent); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; margin: 0 auto 1.25rem auto;">3</div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Compare Orçamentos</h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary);">Consulte distância, avaliações reais e escolha o profissional ideal.</p>
+        </div>
+
+        <div style="background: var(--bg-card); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); text-align: center;">
+          <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(139, 92, 246, 0.1); color: var(--brand-purple); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; margin: 0 auto 1.25rem auto;">4</div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Receba & Avalie</h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary);">Serviço realizado com garantia. Avalie a experiência para ajudar a comunidade.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="#" class="logo" style="margin-bottom: 1rem;">
+            <div class="logo-icon"><i class="fa-solid fa-bolt"></i></div>
+            <div class="logo-text">Chama<span>Pro</span></div>
+          </a>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.5rem; max-width: 320px;">
+            A plataforma tecnológica que conecta você aos melhores profissionais autônomos da sua cidade de forma prática e segura.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Categorias</h5>
+          <ul class="footer-links">
+            <li><a href="#categorias">Eletricista</a></li>
+            <li><a href="#categorias">Encanador</a></li>
+            <li><a href="#categorias">Técnico de Informática</a></li>
+            <li><a href="#categorias">Diarista</a></li>
+            <li><a href="#categorias">Mecânico</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Para Você</h5>
+          <ul class="footer-links">
+            <li><a href="#como-funciona">Como Funciona</a></li>
+            <li><a href="#profissionais">Encontrar Profissionais</a></li>
+            <li><a href="#" onclick="alert('Sistema de garantia ChamaPro: Todos os serviços contam com suporte e garantia de 90 dias.'); return false;">Garantia de Serviço</a></li>
+            <li><a href="#" onclick="alert('Cadastre-se como profissional parceiro no app ChamaPro Pro!'); return false;">Seja um Profissional Parceiro</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Segurança</h5>
+          <ul class="footer-links">
+            <li><i class="fa-solid fa-shield-check" style="color: var(--brand-success);"></i> Verificação de Antecedentes</li>
+            <li><i class="fa-solid fa-star" style="color: var(--brand-accent);"></i> Avaliações Autênticas</li>
+            <li><i class="fa-solid fa-lock" style="color: var(--brand-primary);"></i> Dados Protegidos</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 ChamaPro Tecnologia S.A. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal 1: Perfil do Profissional -->
+  <div class="modal-overlay" id="proModal">
+    <div class="modal-content" id="proModalContent">
+      <!-- Content injected via JS -->
+    </div>
+  </div>
+
+  <!-- Modal 2: Solicitação de Serviço / Pedir Orçamento -->
+  <div class="modal-overlay" id="quoteModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Solicitar Orçamento para <span id="quoteProName" style="color: var(--brand-primary);"></span></h3>
+        <button class="modal-close" onclick="document.getElementById('quoteModal').classList.remove('active');"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="quoteForm">
+          <div class="form-group">
+            <label class="form-label">Categoria do Serviço</label>
+            <select id="quoteCategorySelect" class="form-control">
+              <option value="eletricista">Eletricista</option>
+              <option value="encanador">Encanador</option>
+              <option value="informatica">Técnico de Informática</option>
+              <option value="mecanico">Mecânico</option>
+              <option value="diarista">Diarista</option>
+              <option value="pintor">Pintor</option>
+              <option value="pedreiro">Pedreiro</option>
+              <option value="celular">Técnico de Celular</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Descrição detalhada do problema ou serviço</label>
+            <textarea id="quoteDesc" class="form-control" placeholder="Ex: Preciso instalar uma tomada 220V no quarto para ligar o ar condicionado..." required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Nível de Urgência</label>
+            <div class="urgency-grid">
+              <div class="urgency-option active" data-urgency="Hoje">⚡ Hoje (Urgente)</div>
+              <div class="urgency-option" data-urgency="Esta Semana">📅 Esta Semana</div>
+              <div class="urgency-option" data-urgency="Sem Pressa">💬 Sem Pressa</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Anexar Foto do Local ou Equipamento (Opcional)</label>
+            <div class="dropzone" id="photoDropzone">
+              <i class="fa-solid fa-cloud-arrow-up dropzone-icon"></i>
+              <p style="font-size: 0.9rem; font-weight: 600;">Clique para simular o envio de foto</p>
+              <p style="font-size: 0.78rem; color: var(--text-muted);">PNG, JPG até 10MB</p>
+              <img id="photoPreview" class="preview-thumb" style="display: none; margin: 0.75rem auto 0 auto;" src="" alt="Preview">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Seu Bairro / Região</label>
+            <input type="text" id="quoteAddress" class="form-control" value="Centro, São Paulo - SP" required>
+          </div>
+
+          <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 1rem; margin-top: 1rem;">
+            <i class="fa-solid fa-paper-plane"></i> Enviar Solicitação de Orçamento
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Avaliação de Profissional -->
+  <div class="modal-overlay" id="reviewModal">
+    <div class="modal-content" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Avaliar <span id="reviewProName"></span></h3>
+        <button class="modal-close" onclick="document.getElementById('reviewModal').classList.remove('active');"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="reviewForm">
+          <div class="form-group" style="text-align: center;">
+            <label class="form-label">Sua Nota para o Serviço</label>
+            <div class="star-rating-input" id="starRatingPicker" style="justify-content: center; margin-top: 0.5rem;">
+              <i class="fa-solid fa-star active" data-val="1"></i>
+              <i class="fa-solid fa-star active" data-val="2"></i>
+              <i class="fa-solid fa-star active" data-val="3"></i>
+              <i class="fa-solid fa-star active" data-val="4"></i>
+              <i class="fa-solid fa-star active" data-val="5"></i>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Deixe seu comentário</label>
+            <textarea id="reviewComment" class="form-control" placeholder="Conte como foi o atendimento, pontualidade e qualidade do serviço..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 0.85rem;">
+            Publicar Avaliação
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drawer 1: Chat em Tempo Real -->
+  <div class="drawer" id="chatDrawer">
+    <div class="modal-header">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <img id="chatProAvatar" src="" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+        <div>
+          <h4 id="chatProName" style="font-size: 1rem; font-weight: 700;">Chat</h4>
+          <span style="font-size: 0.75rem; color: var(--brand-success);"><i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Online Agora</span>
+        </div>
+      </div>
+      <button class="modal-close closeDrawerBtn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="chat-messages-container" id="chatMessages">
+      <!-- Injected via JS -->
+    </div>
+
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" class="form-control" placeholder="Escreva sua mensagem...">
+      <button class="btn-primary" id="sendChatBtn" style="padding: 0.75rem 1.25rem;">
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Drawer 2: Meus Pedidos & Histórico -->
+  <div class="drawer" id="requestsDrawer">
+    <div class="modal-header">
+      <h3 class="modal-title"><i class="fa-solid fa-clipboard-list" style="color: var(--brand-primary);"></i> Meus Pedidos</h3>
+      <button class="modal-close closeDrawerBtn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div style="padding: 1.25rem; overflow-y: auto; flex: 1;" id="myRequestsList">
+      <!-- Injected via JS -->
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
